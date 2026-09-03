@@ -3,71 +3,186 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WhatsApp — Daniel Vorcaro</title>
+  <title>WhatsApp</title>
   <link rel="icon" href="assets/avatars/vorcaro.jpg" />
   <link rel="stylesheet" href="css/whatsapp.css" />
 </head>
 <body>
-  <div class="disclaimer">
-    Reconstrução visual a partir da <strong>IPJ-A nº 3298613/2026</strong> (NADIP/DFIN/CGRC/DICOR/PF).
-    Não é o WhatsApp original. Mensagens só as transcritas no relatório — o gabinete de Moraes contestou, em março/2026, que o número fosse o dele.
-  </div>
-
-  <div class="app">
-    <nav class="rail" aria-label="Navegação">
-      <button class="rail-btn active" title="Conversas" data-tab="chats">
+  <div class="app" id="app">
+    <nav class="rail" aria-label="Navegação principal">
+      <button class="rail-btn active" data-panel="chats" title="Conversas (Ctrl+Shift+[)">
         <svg viewBox="0 0 24 24"><path d="M19.005 3.175H4.674C3.642 3.175 3 3.789 3 4.821V21.02l3.544-3.514h12.461c1.033 0 2.064-1.06 2.064-2.093V4.821c-.001-1.032-1.032-1.646-2.064-1.646zm-4.989 9.869H7.041V11.1h6.975v1.944zm3-4H7.041V7.1h9.975v1.944z"/></svg>
       </button>
-      <button class="rail-btn" title="Status" disabled>
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg>
+      <button class="rail-btn" data-panel="status" title="Status">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/></svg>
       </button>
-      <button class="rail-btn" title="Canais" disabled>
-        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V6h2v6z"/></svg>
+      <button class="rail-btn" data-panel="channels" title="Canais">
+        <svg viewBox="0 0 24 24"><path d="M12 3l9 4.5v9L12 21l-9-4.5v-9L12 3zm0 2.2L5.5 8.4v7.2L12 18.8l6.5-3.2V8.4L12 5.2zM12 12.5a2 2 0 100-4 2 2 0 000 4z"/></svg>
+      </button>
+      <button class="rail-btn" data-panel="communities" title="Comunidades">
+        <svg viewBox="0 0 24 24"><path d="M12 12.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7zm-7.5 8a5.4 5.4 0 0110.8 0H4.5zm11.2-8.7a3 3 0 10-1.4-5.7 4.9 4.9 0 011.4 5.7zm1.1 1.4c2.4.4 4.2 2.3 4.7 4.8h-3.4a6.6 6.6 0 00-1.3-4.8z"/></svg>
       </button>
       <div class="rail-spacer"></div>
-      <div class="rail-me" id="rail-me"></div>
+      <button class="rail-btn" data-panel="starred" title="Mensagens favoritas">
+        <svg viewBox="0 0 24 24"><path d="M12 17.3l-6.18 3.7 1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73 1.64 7.03z"/></svg>
+      </button>
+      <button class="rail-btn" data-panel="archived" title="Arquivadas">
+        <svg viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68A1.5 1.5 0 0018 3H6c-.46 0-.88.21-1.16.55L3.46 5.23A2 2 0 003 6.5V19a2 2 0 002 2h14a2 2 0 002-2V6.5c0-.46-.17-.89-.46-1.27zM6.24 5h11.52l.81.97H5.44L6.24 5zM5 19V8h14v11H5zm3-5h8v2H8v-2z"/></svg>
+      </button>
+      <button class="rail-btn" data-panel="settings" title="Configurações">
+        <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7.03 7.03 0 00-1.63-.94l-.36-2.54A.5.5 0 0014.1 2h-4.2a.5.5 0 00-.49.42l-.36 2.54c-.59.24-1.13.55-1.63.94l-2.39-.96a.5.5 0 00-.6.22L2.51 8.84a.5.5 0 00.12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.63 14.52a.5.5 0 00-.12.64l1.92 3.32c.13.23.4.32.64.22l2.39-.96c.5.39 1.04.7 1.63.94l.36 2.54c.05.24.25.42.49.42h4.2c.24 0 .44-.18.49-.42l.36-2.54c.59-.24 1.13-.55 1.63-.94l2.39.96c.24.1.51 0 .64-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7z"/></svg>
+      </button>
+      <button class="rail-me" data-panel="profile" title="Perfil" id="rail-me"></button>
     </nav>
 
-    <aside class="sidebar">
-      <header class="side-head">
-        <h1>Conversas</h1>
-        <span class="badge-src">IPJ-A 3298613/2026</span>
-      </header>
-      <div class="search-wrap">
-        <div class="search-box">
-          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <input id="search" type="search" placeholder="Pesquisar ou começar uma nova conversa" autocomplete="off" />
+    <aside class="sidebar" id="sidebar">
+      <section class="panel active" data-panel="chats">
+        <header class="side-head">
+          <h1>WhatsApp</h1>
+          <div class="head-actions">
+            <button class="icon-btn" title="Nova conversa" id="btn-new" type="button">
+              <svg viewBox="0 0 24 24"><path d="M19.005 3.175H4.674C3.642 3.175 3 3.789 3 4.821V21.02l3.544-3.514h12.461c1.033 0 2.064-1.06 2.064-2.093V4.821c-.001-1.032-1.032-1.646-2.064-1.646zM16.5 12h-3v3h-2v-3h-3V10h3V7h2v3h3v2z"/></svg>
+            </button>
+            <button class="icon-btn" title="Mais opções" id="btn-menu-side" type="button">
+              <svg viewBox="0 0 24 24"><path d="M12 7a2 2 0 110-4 2 2 0 010 4zm0 7a2 2 0 110-4 2 2 0 010 4zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
+            </button>
+          </div>
+        </header>
+        <div class="search-wrap">
+          <div class="search-box" id="search-box">
+            <svg class="ico-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <svg class="ico-back" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            <input id="search" type="search" placeholder="Pesquisar ou começar uma nova conversa" autocomplete="off" />
+            <button class="ico-clear hidden" id="search-clear" type="button" title="Limpar">×</button>
+          </div>
         </div>
-      </div>
-      <div class="filters">
-        <button class="chip active" data-filter="all">Tudo</button>
-        <button class="chip" data-filter="moraes">Moraes</button>
-        <button class="chip" data-filter="contrato">Contrato Barci</button>
-        <button class="chip" data-filter="londres">Londres</button>
-      </div>
-      <div id="chat-list" class="chat-list"></div>
+        <div class="filters" id="filters">
+          <button class="chip active" data-filter="all" type="button">Tudo</button>
+          <button class="chip" data-filter="unread" type="button">Não lidas</button>
+          <button class="chip" data-filter="fav" type="button">Favoritas</button>
+          <button class="chip" data-filter="groups" type="button">Grupos</button>
+        </div>
+        <div class="chat-list" id="chat-list"></div>
+      </section>
+
+      <section class="panel" data-panel="status">
+        <header class="side-head"><h1>Status</h1></header>
+        <div class="status-me">
+          <div class="status-av" id="status-me-av"></div>
+          <div>
+            <div class="who">Meu status</div>
+            <div class="prev">Toque para atualizar o status</div>
+          </div>
+        </div>
+        <p class="panel-empty">Nenhuma atualização recente. Os status não fazem parte da extração da IPJ-A.</p>
+      </section>
+
+      <section class="panel" data-panel="channels">
+        <header class="side-head"><h1>Canais</h1></header>
+        <p class="panel-empty">Não há canais neste aparelho.</p>
+      </section>
+
+      <section class="panel" data-panel="communities">
+        <header class="side-head"><h1>Comunidades</h1></header>
+        <p class="panel-empty">Você não faz parte de nenhuma comunidade.</p>
+      </section>
+
+      <section class="panel" data-panel="starred">
+        <header class="side-head"><h1>Favoritas</h1></header>
+        <div class="chat-list" id="starred-list"></div>
+      </section>
+
+      <section class="panel" data-panel="archived">
+        <header class="side-head"><h1>Arquivadas</h1></header>
+        <p class="panel-empty">Nenhuma conversa arquivada.</p>
+      </section>
+
+      <section class="panel" data-panel="settings">
+        <header class="side-head"><h1>Configurações</h1></header>
+        <div class="set-row" data-panel="profile">
+          <div class="set-av" id="set-av"></div>
+          <div>
+            <div class="who" id="set-name">Daniel Vorcaro</div>
+            <div class="prev">Disponível</div>
+          </div>
+        </div>
+        <div class="set-list">
+          <div class="set-item"><span>Conta</span><small>Privacidade, segurança</small></div>
+          <div class="set-item"><span>Privacidade</span></div>
+          <div class="set-item"><span>Conversas</span></div>
+          <div class="set-item"><span>Notificações</span></div>
+          <div class="set-item"><span>Atalhos do teclado</span><small>Ctrl+Shift+] próxima · Esc fecha</small></div>
+        </div>
+        <div class="about-box">
+          Reconstrução a partir da IPJ-A nº 3298613/2026 (Operação Compliance Zero). Não é o WhatsApp original. O gabinete de Moraes contestou, em março/2026, que o número salvo como “Alexandre de Moraes BRASILIA” fosse o dele.
+        </div>
+      </section>
+
+      <section class="panel" data-panel="profile">
+        <header class="side-head">
+          <button class="icon-btn back-side" data-panel="chats" type="button" title="Voltar">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          </button>
+          <h1>Perfil</h1>
+        </header>
+        <div class="profile-big">
+          <img id="profile-photo" alt="" />
+          <div class="who" id="profile-name"></div>
+          <div class="prev">Recado: Disponível</div>
+        </div>
+      </section>
     </aside>
 
-    <main class="pane">
+    <div class="split" id="split" title="Arrastar para redimensionar"></div>
+
+    <main class="pane" id="pane">
       <div id="empty" class="empty">
         <div class="empty-card">
-          <div class="wa-mark">WhatsApp</div>
-          <h2>Celular apreendido de Daniel Vorcaro</h2>
-          <p>Selecione uma conversa à esquerda. Os diálogos foram reconstruídos a partir das transcrições da Polícia Federal na Operação Compliance Zero.</p>
+          <div class="empty-logo">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.3A8 8 0 004.3 17.4L3 21l3.7-1.2A8 8 0 1017.6 6.3zM12 19.2a6.2 6.2 0 01-3.2-.9l-.2-.1-2.4.8.8-2.3-.1-.2a6.2 6.2 0 118.3-7.7 6.2 6.2 0 01-3.2 10.4z"/></svg>
+          </div>
+          <h2>WhatsApp Web</h2>
+          <p>Envie e receba mensagens sem precisar manter seu celular conectado à internet.<br>Use o WhatsApp em até quatro aparelhos vinculados e um celular ao mesmo tempo.</p>
+          <div class="empty-lock">🔒 Suas mensagens pessoais são protegidas com a criptografia de ponta a ponta</div>
         </div>
       </div>
+
       <section id="thread" class="thread hidden">
         <header class="chat-head" id="chat-head"></header>
+        <div class="findbar hidden" id="findbar">
+          <input id="find-input" type="search" placeholder="Pesquisar nesta conversa" />
+          <span id="find-count"></span>
+          <button type="button" id="find-close">Fechar</button>
+        </div>
         <div class="msgs" id="msgs"></div>
+        <button class="jump hidden" id="jump" type="button" title="Ir para a mensagem mais recente">↓</button>
         <footer class="composer">
-          <span class="icon">☺</span>
-          <span class="icon">＋</span>
-          <div class="composer-input">Somente leitura — reconstrução da IPJ-A</div>
-          <span class="mic">🎤</span>
+          <button class="icon-btn" type="button" title="Emoji">
+            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16zm-4-7a4 4 0 008 0H8zm1-3.5A1.5 1.5 0 1010.5 8 1.5 1.5 0 009 9.5zM15 9.5A1.5 1.5 0 1013.5 8 1.5 1.5 0 0015 9.5z"/></svg>
+          </button>
+          <button class="icon-btn" type="button" title="Anexar">
+            <svg viewBox="0 0 24 24"><path d="M16.5 6.5v7.6a4.5 4.5 0 11-9 0V6.2a2.7 2.7 0 015.4 0v7.4a.9.9 0 11-1.8 0V6.5h-1.5v7.1a2.4 2.4 0 104.8 0V6.2a4.2 4.2 0 10-8.4 0v7.9a6 6 0 1012 0V6.5h-1.5z"/></svg>
+          </button>
+          <div class="composer-input">Mensagem</div>
+          <button class="icon-btn" type="button" title="Mensagem de voz">
+            <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V6a3 3 0 10-6 0v5a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 9v-2.1A8.1 8.1 0 0020 10h-2a6 6 0 01-12 0H4a8.1 8.1 0 006 7.9V20H8v2h8v-2h-2z"/></svg>
+          </button>
         </footer>
       </section>
     </main>
+
+    <aside class="drawer hidden" id="drawer">
+      <header class="side-head">
+        <button class="icon-btn" id="drawer-close" type="button" title="Fechar">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+        <h1>Dados do contato</h1>
+      </header>
+      <div class="drawer-body" id="drawer-body"></div>
+    </aside>
   </div>
+
+  <div id="ctx" class="ctx hidden"></div>
 
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-backdrop" id="modal-close"></div>
