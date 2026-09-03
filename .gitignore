@@ -1,0 +1,8 @@
+*.pdf
+2 .pdf
+fotos-de-perfil/fontes/
+fotos-de-perfil/_gerar_previas.py
+fotos-de-perfil/opcao-1/
+fotos-de-perfil/opcao-3/
+.DS_Store
+Thumbs.db

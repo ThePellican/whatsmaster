@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WhatsApp — Daniel Vorcaro</title>
+  <link rel="icon" href="assets/avatars/vorcaro.jpg" />
+  <link rel="stylesheet" href="css/whatsapp.css" />
+</head>
+<body>
+  <div class="disclaimer">
+    Reconstrução visual a partir da <strong>IPJ-A nº 3298613/2026</strong> (NADIP/DFIN/CGRC/DICOR/PF).
+    Não é o WhatsApp original. Mensagens só as transcritas no relatório — o gabinete de Moraes contestou, em março/2026, que o número fosse o dele.
+  </div>
+
+  <div class="app">
+    <nav class="rail" aria-label="Navegação">
+      <button class="rail-btn active" title="Conversas" data-tab="chats">
+        <svg viewBox="0 0 24 24"><path d="M19.005 3.175H4.674C3.642 3.175 3 3.789 3 4.821V21.02l3.544-3.514h12.461c1.033 0 2.064-1.06 2.064-2.093V4.821c-.001-1.032-1.032-1.646-2.064-1.646zm-4.989 9.869H7.041V11.1h6.975v1.944zm3-4H7.041V7.1h9.975v1.944z"/></svg>
+      </button>
+      <button class="rail-btn" title="Status" disabled>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg>
+      </button>
+      <button class="rail-btn" title="Canais" disabled>
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V6h2v6z"/></svg>
+      </button>
+      <div class="rail-spacer"></div>
+      <div class="rail-me" id="rail-me"></div>
+    </nav>
+
+    <aside class="sidebar">
+      <header class="side-head">
+        <h1>Conversas</h1>
+        <span class="badge-src">IPJ-A 3298613/2026</span>
+      </header>
+      <div class="search-wrap">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input id="search" type="search" placeholder="Pesquisar ou começar uma nova conversa" autocomplete="off" />
+        </div>
+      </div>
+      <div class="filters">
+        <button class="chip active" data-filter="all">Tudo</button>
+        <button class="chip" data-filter="moraes">Moraes</button>
+        <button class="chip" data-filter="contrato">Contrato Barci</button>
+        <button class="chip" data-filter="londres">Londres</button>
+      </div>
+      <div id="chat-list" class="chat-list"></div>
+    </aside>
+
+    <main class="pane">
+      <div id="empty" class="empty">
+        <div class="empty-card">
+          <div class="wa-mark">WhatsApp</div>
+          <h2>Celular apreendido de Daniel Vorcaro</h2>
+          <p>Selecione uma conversa à esquerda. Os diálogos foram reconstruídos a partir das transcrições da Polícia Federal na Operação Compliance Zero.</p>
+        </div>
+      </div>
+      <section id="thread" class="thread hidden">
+        <header class="chat-head" id="chat-head"></header>
+        <div class="msgs" id="msgs"></div>
+        <footer class="composer">
+          <span class="icon">☺</span>
+          <span class="icon">＋</span>
+          <div class="composer-input">Somente leitura — reconstrução da IPJ-A</div>
+          <span class="mic">🎤</span>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="modal-close"></div>
+    <div class="note-sheet">
+      <div class="note-top">
+        <span>Notas</span>
+        <button type="button" id="modal-x">Fechar</button>
+      </div>
+      <div class="note-meta" id="note-meta"></div>
+      <div class="note-body" id="note-body"></div>
+      <div class="note-foot">Screenshot enviado no WhatsApp · visualização única</div>
+    </div>
+  </div>
+
+  <script src="js/conversas.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
