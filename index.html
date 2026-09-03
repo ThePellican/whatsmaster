@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WhatsApp</title>
   <link rel="icon" href="assets/avatars/vorcaro.jpg" />
-  <link rel="stylesheet" href="css/whatsapp.css" />
+  <link rel="stylesheet" href="css/whatsapp.css?v=3" />
 </head>
 <body>
   <div class="app" id="app">
     <nav class="rail" aria-label="Navegação principal">
-      <button class="rail-btn active" data-panel="chats" title="Conversas (Ctrl+Shift+[)">
+      <button class="rail-btn active" data-panel="chats" title="Conversas">
         <svg viewBox="0 0 24 24"><path d="M19.005 3.175H4.674C3.642 3.175 3 3.789 3 4.821V21.02l3.544-3.514h12.461c1.033 0 2.064-1.06 2.064-2.093V4.821c-.001-1.032-1.032-1.646-2.064-1.646zm-4.989 9.869H7.041V11.1h6.975v1.944zm3-4H7.041V7.1h9.975v1.944z"/></svg>
       </button>
       <button class="rail-btn" data-panel="status" title="Status">
@@ -107,11 +107,10 @@
           </div>
         </div>
         <div class="set-list">
-          <div class="set-item"><span>Conta</span><small>Privacidade, segurança</small></div>
-          <div class="set-item"><span>Privacidade</span></div>
-          <div class="set-item"><span>Conversas</span></div>
-          <div class="set-item"><span>Notificações</span></div>
-          <div class="set-item"><span>Atalhos do teclado</span><small>Ctrl+Shift+] próxima · Esc fecha</small></div>
+          <button class="set-item" type="button" data-panel="profile"><span>Perfil</span><small>Foto, nome, recado</small></button>
+          <button class="set-item" type="button" data-panel="starred"><span>Mensagens favoritas</span></button>
+          <button class="set-item" type="button" data-panel="archived"><span>Conversas arquivadas</span></button>
+          <button class="set-item" type="button" data-panel="chats"><span>Conversas</span><small>Voltar à lista</small></button>
         </div>
         <div class="about-box">
           Reconstrução a partir da IPJ-A nº 3298613/2026 (Operação Compliance Zero). Não é o WhatsApp original. O gabinete de Moraes contestou, em março/2026, que o número salvo como “Alexandre de Moraes BRASILIA” fosse o dele.
@@ -142,7 +141,7 @@
             <svg viewBox="0 0 24 24"><path d="M17.6 6.3A8 8 0 004.3 17.4L3 21l3.7-1.2A8 8 0 1017.6 6.3zM12 19.2a6.2 6.2 0 01-3.2-.9l-.2-.1-2.4.8.8-2.3-.1-.2a6.2 6.2 0 118.3-7.7 6.2 6.2 0 01-3.2 10.4z"/></svg>
           </div>
           <h2>WhatsApp Web</h2>
-          <p>Envie e receba mensagens sem precisar manter seu celular conectado à internet.<br>Use o WhatsApp em até quatro aparelhos vinculados e um celular ao mesmo tempo.</p>
+          <p>Clique em uma conversa à esquerda para abrir.<br>Envie e receba mensagens sem precisar manter seu celular conectado à internet.</p>
           <div class="empty-lock">🔒 Suas mensagens pessoais são protegidas com a criptografia de ponta a ponta</div>
         </div>
       </div>
@@ -197,7 +196,7 @@
     </div>
   </div>
 
-  <script src="js/conversas.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/conversas.js?v=3"></script>
+  <script src="js/app.js?v=3"></script>
 </body>
 </html>

@@ -157,8 +157,22 @@
     }
     listEl.innerHTML = html;
     listEl.querySelectorAll(".row[data-id]").forEach((el) => {
-      el.addEventListener("click", () => openChat(el.getAttribute("data-id")));
-      el.addEventListener("contextmenu", (e) => openCtx(e, el.getAttribute("data-id")));
+      el.addEventListener("click", (e) => {
+        if (e.target.closest(".row-more")) return;
+        openChat(el.getAttribute("data-id"));
+      });
+    });
+    listEl.querySelectorAll(".row-more").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute("data-more");
+        openMenu(btn, [
+          ["Abrir conversa", () => openChat(id)],
+          ["Marcar como não lida", () => { UNREAD[id] = (UNREAD[id] || 0) + 1; renderList(); }],
+          ["Arquivar conversa", () => { ARCHIVED.add(id); if (currentId === id) closeChat(); renderList(); }],
+          ["Fechar conversa", () => { if (currentId === id) closeChat(); }]
+        ]);
+      });
     });
   }
 
@@ -176,7 +190,10 @@
         </div>
         <div class="bot">
           <div class="prev">${tick}${escapeHtml(previewOf(last))}</div>
-          <div>${unread ? `<span class="badge">${unread}</span>` : (PINNED.includes(chat.id) ? `<span class="pin">📌</span>` : "")}</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            ${unread ? `<span class="badge">${unread}</span>` : (PINNED.includes(chat.id) ? `<span class="pin">📌</span>` : "")}
+            <button class="row-more" type="button" data-more="${chat.id}" title="Mais opções">▾</button>
+          </div>
         </div>
       </div>
     </div>`;
@@ -207,10 +224,10 @@
     history.replaceState(null, "", "#/" + id);
 
     headEl.innerHTML = `
-      <button class="icon-btn back-chat" type="button" title="Voltar" id="btn-back">
+      <button class="icon-btn back-chat" type="button" title="Voltar às conversas" id="btn-back">
         <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
       </button>
-      <button class="hit" id="btn-info" type="button">
+      <button class="hit" id="btn-info" type="button" title="Ver contato">
         ${avatarHTML(chat)}
         <div>
           <div class="nm">${escapeHtml(chat.name)}</div>
@@ -218,20 +235,25 @@
         </div>
       </button>
       <div class="tools">
-        <button class="icon-btn" type="button" title="Pesquisar" id="btn-find">
+        <button class="icon-btn" type="button" title="Pesquisar na conversa" id="btn-find">
           <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
         </button>
         <button class="icon-btn" type="button" title="Mais opções" id="btn-chat-menu">
           <svg viewBox="0 0 24 24"><path d="M12 7a2 2 0 110-4 2 2 0 010 4zm0 7a2 2 0 110-4 2 2 0 010 4zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
         </button>
+        <button class="icon-btn" type="button" title="Fechar conversa" id="btn-close-chat">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
       </div>`;
     headEl.querySelector("#btn-back").addEventListener("click", closeChat);
+    headEl.querySelector("#btn-close-chat").addEventListener("click", closeChat);
     headEl.querySelector("#btn-info").addEventListener("click", () => openDrawer(chat));
     headEl.querySelector("#btn-find").addEventListener("click", openFind);
     headEl.querySelector("#btn-chat-menu").addEventListener("click", (e) => {
-      openCtx(e, id, [
+      e.stopPropagation();
+      openMenu(e.currentTarget, [
         ["Dados do contato", () => openDrawer(chat)],
-        ["Pesquisar", openFind],
+        ["Pesquisar nesta conversa", openFind],
         ["Fechar conversa", closeChat]
       ]);
     });
@@ -354,25 +376,19 @@
     });
   }
 
-  function openCtx(e, id, items) {
-    e.preventDefault();
-    e.stopPropagation();
-    const list = items || [
-      ["Fixar conversa", () => {}],
-      ["Marcar como não lida", () => { UNREAD[id] = (UNREAD[id] || 0) + 1; renderList(); }],
-      ["Arquivar conversa", () => { ARCHIVED.add(id); if (currentId === id) closeChat(); renderList(); }],
-      ["Fechar conversa", () => { if (currentId === id) closeChat(); }]
-    ];
-    ctx.innerHTML = list.map((it, i) => `<button data-i="${i}">${it[0]}</button>`).join("");
+  function openMenu(anchor, items) {
+    ctx.innerHTML = items.map((it, i) => `<button type="button" data-i="${i}">${it[0]}</button>`).join("");
     ctx.classList.remove("hidden");
-    const x = Math.min(e.clientX, window.innerWidth - 230);
-    const y = Math.min(e.clientY, window.innerHeight - 160);
-    ctx.style.left = x + "px";
-    ctx.style.top = y + "px";
+    const r = anchor.getBoundingClientRect();
+    const top = Math.min(r.bottom + 4, window.innerHeight - 8 - ctx.offsetHeight);
+    const left = Math.min(Math.max(8, r.right - 220), window.innerWidth - 228);
+    ctx.style.top = top + "px";
+    ctx.style.left = left + "px";
     ctx.querySelectorAll("button").forEach((b) => {
-      b.addEventListener("click", () => {
-        list[Number(b.getAttribute("data-i"))][1]();
+      b.addEventListener("click", (e) => {
+        e.stopPropagation();
         ctx.classList.add("hidden");
+        items[Number(b.getAttribute("data-i"))][1]();
       });
     });
   }
@@ -386,6 +402,7 @@
     if (currentId) closeChat();
   }
 
+  searchBox.addEventListener("click", () => searchEl.focus());
   searchEl.addEventListener("focus", () => searchBox.classList.add("focus"));
   searchEl.addEventListener("input", () => {
     q = searchEl.value.trim().toLowerCase();
@@ -408,9 +425,26 @@
     renderList();
   });
 
-  document.querySelectorAll("[data-panel]").forEach((el) => {
-    if (el.classList.contains("chip")) return;
-    el.addEventListener("click", () => switchPanel(el.getAttribute("data-panel")));
+  document.querySelectorAll(".rail-btn, .rail-me, .back-side, .set-row, .set-item[data-panel]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const name = el.getAttribute("data-panel");
+      if (name) switchPanel(name);
+    });
+  });
+  document.getElementById("btn-new").addEventListener("click", (e) => {
+    e.stopPropagation();
+    switchPanel("chats");
+    searchEl.focus();
+  });
+  document.getElementById("btn-menu-side").addEventListener("click", (e) => {
+    e.stopPropagation();
+    openMenu(e.currentTarget, [
+      ["Nova conversa", () => { switchPanel("chats"); searchEl.focus(); }],
+      ["Mensagens favoritas", () => switchPanel("starred")],
+      ["Conversas arquivadas", () => switchPanel("archived")],
+      ["Configurações", () => switchPanel("settings")]
+    ]);
   });
 
   document.getElementById("drawer-close").addEventListener("click", closeDrawer);
@@ -420,19 +454,9 @@
   findInput.addEventListener("input", applyFind);
   document.getElementById("modal-close").addEventListener("click", () => modal.classList.add("hidden"));
   document.getElementById("modal-x").addEventListener("click", () => modal.classList.add("hidden"));
-  document.addEventListener("click", () => ctx.classList.add("hidden"));
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") { e.preventDefault(); popLayer(); return; }
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); searchEl.focus(); return; }
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "f" && currentId) { e.preventDefault(); openFind(); return; }
-    if (e.ctrlKey && e.shiftKey && (e.key === "]" || e.key === "[")) {
-      e.preventDefault();
-      const vis = data.chats.filter((c) => matchesFilter(c) && !ARCHIVED.has(c.id));
-      if (!vis.length) return;
-      let i = vis.findIndex((c) => c.id === currentId);
-      i = e.key === "]" ? (i + 1) % vis.length : (i - 1 + vis.length) % vis.length;
-      openChat(vis[i].id);
-    }
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".ctx, .row-more, #btn-chat-menu, #btn-menu-side")) return;
+    ctx.classList.add("hidden");
   });
 
   msgsEl.addEventListener("scroll", () => {

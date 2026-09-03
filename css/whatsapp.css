@@ -182,6 +182,15 @@ body {
   min-width: 0;
 }
 .row .prev .tick { color: var(--tick); margin-right: 3px; letter-spacing: -1px; }
+.row-more {
+  width: 28px; height: 28px; border: 0;
+  background: transparent; color: var(--icon);
+  border-radius: 50%; cursor: pointer;
+  font-size: 18px; line-height: 1;
+  opacity: 0;
+  flex: 0 0 auto;
+}
+.row:hover .row-more, .row-more:focus, .row-more.open { opacity: 1; background: #2a3942; }
 .badge {
   min-width: 20px; height: 20px; padding: 0 6px;
   background: var(--green); color: #111;
@@ -241,7 +250,7 @@ body {
 .chat-head img, .chat-head .ini { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 .chat-head .nm { font-size: 16px; }
 .chat-head .ph { font-size: 13px; color: var(--muted); }
-.back-chat { display: none; }
+.back-chat { display: grid; }
 .chat-head .tools { display: flex; margin-left: auto; }
 
 .findbar {
@@ -394,7 +403,12 @@ body {
   padding: 16px; cursor: pointer;
 }
 .set-av img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
-.set-item { padding: 14px 18px; border-top: 1px solid var(--hair); }
+.set-item {
+  display: block; width: 100%; text-align: left;
+  padding: 14px 18px; border: 0; border-top: 1px solid var(--hair);
+  background: transparent; cursor: pointer;
+}
+.set-item:hover { background: var(--hover); }
 .set-item small { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
 .about-box {
   margin: 16px; padding: 12px;
@@ -446,5 +460,5 @@ body {
   .drawer { position: absolute; inset: 0; width: auto; z-index: 5; }
   .app.chat-open .sidebar { display: none; }
   .app.chat-open .pane { display: flex; flex: 1; }
-  .back-chat { display: grid; }
+  .row-more { opacity: 1; }
 }
