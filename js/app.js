@@ -21,8 +21,8 @@
   const ctx = document.getElementById("ctx");
   const sidebar = document.getElementById("sidebar");
 
-  const PINNED = ["moraes", "faria", "vivi"];
-  const UNREAD = { ciro: 2, ana: 1, palhares: 1 };
+  const PINNED = [];
+  const UNREAD = {};
   const ARCHIVED = new Set();
 
   let filter = "all";
